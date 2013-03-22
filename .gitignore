@@ -1,4 +1,8 @@
+.*
 *.py[cod]
+
+# Generated documentation
+/docs/build/
 
 # C extensions
 *.so
