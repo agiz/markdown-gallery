@@ -44,4 +44,4 @@ You might want to change:
   |       `-- gallery_3
 
 
--run `python gallery_watcher.py`
+- run `python gallery_watcher.py`
