@@ -1,7 +1,7 @@
 markdown gallery
 ========
-.. image:: https://travis-ci.org/markdown-gallery/markdown-gallery.png?branch=master
-   :target: https://travis-ci.org/markdown-gallery/markdown-gallery
+.. image:: https://travis-ci.org/agiz/markdown-gallery.png?branch=master
+   :target: https://travis-ci.org/agiz/markdown-gallery
    :alt: Build status
 
 **Table of Contents**
