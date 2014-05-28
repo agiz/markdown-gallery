@@ -16,10 +16,19 @@ fi
 
 # http://www.yuiblog.com/blog/2008/12/05/imageopt-4/
 
+# Make headimage:
+#convert IMG_2382.JPG -interlace none -resize x240 IMG_2382.JPG
+#jpegoptim --strip-all -m65 -f IMG_2382.JPG
+
 THUMBNAILS_DIR='t'
 THUMBNAIL_PREFIX='t_'
 THUMBNAIL_SIZE='x128'
 THUMBNAILS_QUALITY='65'
+
+BIGIMAGE_SIZE='x768'
+BIGIMAGE_QUALITY='75'
+
+WATERMARK='../wm_3.png'
 
 check_interlace() {
   idout=`identify -verbose "${1}" | grep -i interlace | grep -i none$`
@@ -32,10 +41,12 @@ check_interlace() {
 }
 
 make_thumbnail() {
+  # lower case {1}
+  lcone=`echo "${1}" | tr '[:upper:]' '[:lower:]'`
   # convert image to 128 height
-  convert "${1}" -interlace none -resize ${THUMBNAIL_SIZE} "./${THUMBNAILS_DIR}/${THUMBNAIL_PREFIX}${1}"
+  convert "${1}" -interlace none -resize ${THUMBNAIL_SIZE} "./${THUMBNAILS_DIR}/${THUMBNAIL_PREFIX}${lcone}"
   # set quality to 65, strip meta-data, optimize
-  jpegoptim --strip-all -m${THUMBNAILS_QUALITY} -f "./${THUMBNAILS_DIR}/${THUMBNAIL_PREFIX}${1}"
+  jpegoptim --strip-all -m${THUMBNAILS_QUALITY} -f "./${THUMBNAILS_DIR}/${THUMBNAIL_PREFIX}${lcone}"
 }
 
 # make thumbnails directory
@@ -48,10 +59,15 @@ do
 
   make_thumbnail "${img}"
 
+  # convert to 768 height
+  convert "${img}" -resize ${BIGIMAGE_SIZE} "${img}"
+  composite -gravity southeast "${WATERMARK}" "${img}" "${img}"
+
   # convert big images to progressive
   #image_optim "${img}"
   # default image_optim chain:
-  jpegoptim --strip-all -f "${img}"
+  jpegoptim --strip-all -m${BIGIMAGE_QUALITY} -f "${img}"
   jpegtran -copy none -progressive "${img}" >"progressive_${img}"
-  mv "progressive_${img}" "${img}"
+  lcimg=`echo "${img}" | tr '[:upper:]' '[:lower:]'`
+  mv "progressive_${img}" "${lcimg}"
 done

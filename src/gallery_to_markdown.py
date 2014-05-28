@@ -1,6 +1,6 @@
 import codecs, os, re
 
-ABSOLUTE_URL = ''
+ABSOLUTE_URL = '//c.racingpool.si/i'
 RELATIVE_URL = '/'
 """
 Absolute and relative host path.
